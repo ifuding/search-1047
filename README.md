@@ -10,6 +10,7 @@ search排序的依据主要就是PageRank以及文本匹配值。
 1. SequenceFileRead.java: convert linkdb/data(SequenceFile Format) to linkdb_data(Text Format).
 2. OutLinks.java(MapReduce): convert linkdb_data to OutLinks_db(Text Format: every single line consist of url and the urls which the first url direct to).
 3. OutLinkNum.java(MapReduce): convert linkdb_data to OutLinkMap(MapFileFormat) in which <key, value> is <url, outlink number>, PageRankMap(MapFile Format) that is the initial pageRank in which <key, value> is <url, new DoubleWritable(1)>.
+
 # PageRank(important and need to be optimized)
 1.input: OutLinks_db(Text Format), OutLinkMap(MapFileFormat), PageRankMap(MapFile Format)
 output: newPageRankMap.
