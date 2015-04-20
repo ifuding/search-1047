@@ -13,7 +13,7 @@ search排序的依据主要就是PageRank以及文本匹配值。
 1. SequenceFileRead.java: 将linkdb/data(SequenceFile Format)转换成linkdb_data(Text Format).
 2. OutLinks.java(MapReduce): 将linkdb_data转换成OutLinks_db(Text Format: 每行的第一个字段为源url，后面的所有字段未此url的出链）。
 
-# PageRank(important and need to be optimized)
+# PageRank
 1. Input: OutLinks_db(Text Format), PageRankMap(MapFile Format)
 Output: newPageRankMap.
 2. Mapper： 将\<null, src_url and outlink urls\>转换成\<url from outlink urls, pageRank[src_url]/outLinkNum[src_url]\>
@@ -22,5 +22,5 @@ Reduccer：将\<url, Iterable\<pageRank_part\>\>转换成\<url, 1-dampFactor+dam
 (1) mapreduce is slow for reading the MapFile.
 (2) programming to settle the number of iterations of the PageRank.
 
-# Search(to be optimized)
+# Search
 读取PageRank，同时计算网页的文本匹配值，将两个值进行加权由hadoop排序。
