@@ -1,4 +1,5 @@
-# search-1047
+search-1047
+================================
 基于Nutch和Hadoop的简易搜索引擎，排序的依据主要就是PageRank以及文本匹配值。
 
 # Nutch & Hadoop
