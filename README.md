@@ -8,8 +8,7 @@ NUtch爬取产生的链接数据库（MapFile Format）linkdb，以及url的文�
 # Hadoop Mapreduce
 Hadoop-2.6.0:http://www.apache.org/dyn/closer.cgi/hadoop/common/.
 search排序的依据主要就是PageRank以及文本匹配值。
-
-# OutLinks以及OutLinkNum
+文本预处理，作为PageRank的输入
 1. SequenceFileRead.java: 将linkdb/data(SequenceFile Format)转换成linkdb_data(Text Format).
 2. OutLinks.java(MapReduce): 将linkdb_data转换成OutLinks_db(Text Format: 每行的第一个字段为源url，后面的所有字段为第一个url的出链）。
 
