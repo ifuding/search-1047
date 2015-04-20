@@ -4,8 +4,8 @@ search-1047
 
 Nutch & Hadoop
 ----------------------------------
-Nutch-1.9:http://www.apache.org/dyn/closer.cgi/nutch/. \<br /\>  
-NUtch爬取产生的链接数据库（MapFile Format）linkdb，以及url的文本库segments/parse_text作为Hadoop的输入。\<br /\>  
+Nutch-1.9:http://www.apache.org/dyn/closer.cgi/nutch/. <br />  
+NUtch爬取产生的链接数据库（MapFile Format）linkdb，以及url的文本库segments/parse_text作为Hadoop的输入。<br />  
 Hadoop-2.6.0:http://www.apache.org/dyn/closer.cgi/hadoop/common/.\<br /\>  
 
 
