@@ -17,7 +17,7 @@ search排序的依据主要就是PageRank以及文本匹配值。
 1. Input: OutLinks_db(Text Format), PageRankMap(MapFile Format)
 Output: newPageRankMap.
 2. Mapper： 将\<null, src_url and outlink urls\>转换成\<url from outlink urls, pageRank[src_url]/outLinkNum[src_url]\>
-Reduccer：将\<url, Iterable<pageRank_part>\>转换成\<url, 1-dampFactor+damFactor*sum(pageRank_part)\>.
+Reduccer：将\<url, Iterable\<pageRank_part\>\>转换成\<url, 1-dampFactor+damFactor*sum(pageRank_part)\>.
 3. to be optimized.
 (1) mapreduce is slow for reading the MapFile.
 (2) programming to settle the number of iterations of the PageRank.
