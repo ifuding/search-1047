@@ -1,13 +1,11 @@
 # search-1047
-A simple search engine based on Nutch and Hadoop.
+基于Nutch和Hadoop的简易搜索引擎，排序的依据主要就是PageRank以及文本匹配值。
 
-# Nutch爬虫
-Nutch-1.9:http://www.apache.org/dyn/closer.cgi/nutch/.
-NUtch爬取产生的链接数据库（MapFile Format）linkdb，以及url的文本库segments/parse_text作为Hadoop的输入。
-
-# Hadoop Mapreduce
+# Nutch & Hadoop
+Nutch-1.9:http://www.apache.org/dyn/closer.cgi/nutch/. \n
+NUtch爬取产生的链接数据库（MapFile Format）linkdb，以及url的文本库segments/parse_text作为Hadoop的输入。 \n
 Hadoop-2.6.0:http://www.apache.org/dyn/closer.cgi/hadoop/common/.
-search排序的依据主要就是PageRank以及文本匹配值。
+
 
 # 文本预处理
 作为PageRank的输入
