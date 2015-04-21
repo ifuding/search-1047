@@ -1,12 +1,12 @@
 /*
-description: The linkdb output by nutch contain the url and the urls \ 
-             that direct to the first url in every single line.Then we \
-             need to convert it to the url and the urls that the url direct \
-             to in ervery single line.
-input: linkdb_data Text.
-output: linkdb_data2 Text.
-Mapper: <null, urls> --> <srcUrl, targetUrl>
-Reducer: <srcUrl, Iterator<targetUrl>> --> <null, srcUrl+targetUrls>
+description: In the v0.0.1 the pageRank algorithm need the number of outLinks in every urls and
+             the inital PageRankMap.
+             In the v0.0.2 don't need the OutLinkNum, but also need the initial PageRankMap. 
+input: linkdb_data, every single line includes the url and the urls which direct \
+       to the first url.
+ouput: OutLinkMap MapFile, <key, value> is <url, outLinkNum>
+Mapper: <null, targetUrl and srcUrls> --> <srcUrl, 1>
+Reduccer: <url, Iterator<DoubleWritable>> --> <url, OutLinkNum>
 */
 package SearchPackage;
 
@@ -30,25 +30,25 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 
-public class OutLinks {
-  public static class OutLinksMapper extends Mapper <LongWritable, Text, Text, Text> {
+public class OutLinkNum {
+  public static class OutLinkNumMapper extends Mapper <LongWritable, Text, Text, IntWritable> {
     public void map (LongWritable key, Text value, Context context) throws IOException, InterruptedException {
       String line = value.toString();
       String urls[] = line.split(" ");
       int urlSize = urls.length;
-      for(int i = 1; i < urlSize; i++) {
-  	context.write(new Text(urls[i]), new Text(urls[0]));
+      for(int i = 0; i < urlSize; i++) {
+  	context.write(new Text(urls[i]), new IntWritable(1));
       }
     }
   }
   
-  public static class OutLinksReducer extends Reducer <Text, Text, Text, NullWritable > {
-    public void reduce (Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-      StringBuffer OutLinkStr = new StringBuffer(key.toString());
-      for(Text value : values) {
-        OutLinkStr.append(" ").append(value.toString());
-      }
-      context.write(new Text(OutLinkStr.toString()), NullWritable.get());
+  public static class OutLinkNumReducer extends Reducer <Text, IntWritable, Text, DoubleWritable> {
+    public void reduce (Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+      double outLinkNum = 0;
+     /* for(IntWritable value : values) {
+        outLinkNum++;
+      }*/
+      context.write(key, new DoubleWritable(1));//outLinkNum));
     }
   }
 
@@ -64,13 +64,14 @@ public class OutLinks {
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
     
-    job.setMapperClass(OutLinksMapper.class);
-    job.setReducerClass(OutLinksReducer.class);
+    job.setOutputFormatClass(MapFileOutputFormat.class);
+    job.setMapperClass(OutLinkNumMapper.class);
+    job.setReducerClass(OutLinkNumReducer.class);
 
     job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(Text.class);
+    job.setMapOutputValueClass(IntWritable.class);
     job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(NullWritable.class);
+    job.setOutputValueClass(DoubleWritable.class);
 
     job.waitForCompletion(true);
   }

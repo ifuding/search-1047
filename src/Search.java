@@ -34,33 +34,6 @@ public class Search {
   private static String pattern = null;
   private static MapFileRead pageRankRead = null;
 
-  public static class MapFileRead {
-    
-    private MapFile.Reader reader = null;
-    private DoubleWritable value = null;
-
-    private Configuration conf = null;
-    private FileSystem fs = null;
-    private Path path = null;
-    
-    public MapFileRead(String uri) throws IOException{
-      this.conf = new Configuration();
-      this.fs = FileSystem.get(URI.create(uri), conf);
-      this.path = new Path(uri);
-      this.reader = new MapFile.Reader(fs, uri, conf);
-    }
-    public double getValue(String url) throws IOException{
-      try {
-        reader.get(new Text(url), value);
-      }   
-      finally {
-        if(value == null) {
-          return 1;
-        }
-        return value.get();
-      }
-    }
-  }
 
   public static class TextMatcher {
    /* private String pattern;
@@ -105,17 +78,15 @@ public class Search {
       String text = value.toString();
       String url = new String();
       int i = 0;
-      while(text.charAt(i) != '\t') {
+      while(text.charAt(i) != ' ') {
         url = url+text.charAt(i);
         i++;
       }
       text = text.substring(++i,text.length());
-     // TextMatcher matcher = new TextMatcher(pattern,text);
-     // matcher.calcMatchVal();
       double urlMatchVal = TextMatcher.calcMatchVal(url, pattern);
       double textMatchVal = TextMatcher.calcMatchVal(text, pattern);
       double pageRank = pageRankRead.getValue(url);
-      double urlWeight = Math.pow(urlMatchVal*10+textMatchVal, pageRank);
+      double urlWeight = Math.pow(urlMatchVal*10+textMatchVal, pageRank)+pageRank*1000;
       context.write(new DoubleWritable(urlWeight), new Text(url));
     }
   }

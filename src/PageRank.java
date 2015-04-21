@@ -10,7 +10,7 @@ outPut: PageRankMap.
 Mapper: <null, urls> --> <url, pageRankPart>
 Reducer: <url, Iterator<pageRankPart>> --> <url, pageRank> 
 */
-package PageRankPackage;
+package SearchPackage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,35 +42,6 @@ import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 public class PageRank {
 
   private static MapFileRead PageRankRead = null;
-  //private static MapFileRead OutLinksRead = null;
-  
-  public static class MapFileRead {
-    
-    private MapFile.Reader reader = null;
-    private DoubleWritable value = null;
-
-    private Configuration conf = null;
-    private FileSystem fs = null;
-    private Path path = null;
-    
-    public MapFileRead(String uri) throws IOException{
-      this.conf = new Configuration();
-      this.fs = FileSystem.get(URI.create(uri), conf);
-      this.path = new Path(uri);
-      this.reader = new MapFile.Reader(fs, uri, conf);
-    }
-    public double getValue(String url) throws IOException{
-      try {
-        reader.get(new Text(url), value);
-      }   
-      finally {
-        if(value == null) {
-          return 1;
-        }
-        return value.get();
-      }
-    }
-  }
 
   public static class PageRankMapper extends Mapper <LongWritable, Text, Text, DoubleWritable> {
     public void map (LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -79,7 +50,6 @@ public class PageRank {
       int urlSize = urls.length;
       double srcPageRank = PageRankRead.getValue(urls[0]);
       //urls[0] is the targetUrl.
-      //double outLinkNum = OutLinksRead.getValue(urls[0]);
       double outLinkNum = urlSize-1;
       double pageRank_part = srcPageRank/outLinkNum;
       for(int i = 1; i < urlSize; i++) {
