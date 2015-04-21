@@ -1,0 +1,16 @@
+#awk script: compare two pageRank files for ensure the convergence of the algorithm.
+{
+  if(FNR >= 6) {
+    if(NR == FNR) {
+      a[FNR] = $2;
+    }
+    if(NR > FNR) {
+      y = a[FNR]-$2;
+      if(y >= 1e-3 || y <= -1e-3) {
+      #如果PageRank的更新值大于1e-3则我们判定还未达到收敛
+        print "Not convergence!";
+        exit 222;
+      } 
+    }
+  }
+} 
