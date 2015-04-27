@@ -12,7 +12,7 @@ hadoop fs -mkdir /input
 #将url及其出链上传到HDFS
 if [[ ! -f ${dir}/OutLinks ]]
 then
-  echo "Not found the input ${dir}/OutLinksMap."
+  echo "Not found the input ${dir}/OutLinks."
   exit 1
 else
   hadoop fs -put ${dir}/OutLinks /input
@@ -63,7 +63,8 @@ mv ${dir}/${PageRankOut} ${dir}/PageRankMap
 
 if ((cmpRe == 0))
 then
-  echo "PageRank completed. The itertime is $iterTime."   
+  echo "PageRank completed. The itertime is $iterTime."
+  exit 0   
 fi
 
 

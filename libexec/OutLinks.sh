@@ -14,12 +14,12 @@ export OutputDir=../tmp
 if [[ -f ${OutputDir} ]]
 then 
   rm ${OutputDir}
+elif [[ -d ${OutputDir} ]]
+then
+  rm -r ${OutputDir}
 fi
 
-if [[ ! -d ${OutputDir} ]]
-then
-  mkdir ${OutputDir}
-fi
+mkdir ${OutputDir}
 
 if [[ ! -f ${link_home} ]]
 then
@@ -77,7 +77,7 @@ fi
 
 #### parse_text(SequenceFile)->parse_text(Text)
 
-export parseText_home=${NUTCH_HOME}/crawls/segments/20150407195835/parse_text/part-00000/data
+export parseText_home=${NUTCH_HOME}/crawls/segments/20150422115109/parse_text/part-00000/data
 
 if [[ ! -f ${parseText_home} ]]
 then

@@ -35,7 +35,7 @@ public class MapFileRead {
     }   
     finally {
       if(value == null) {
-        return 1;
+        return 0;
       }
       return value.get();
     }

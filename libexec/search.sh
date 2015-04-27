@@ -7,6 +7,8 @@ export dir=../tmp
 export searchOut=part-r-00000
 echo "Please enter the content you want to search: "
 read searchPattern
+echo ${searchPattern}
+exit 0 
 
 hadoop fs -rm /input
 hadoop fs -mkdir /input
