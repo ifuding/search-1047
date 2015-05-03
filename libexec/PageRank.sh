@@ -3,6 +3,8 @@
 
 export classname=Search
 export dir=../tmp
+export inputFileName=OutLinks
+export inputFile=${dir}/${inputFileName}
 PageRankOut=part-r-00000
 
 
@@ -10,23 +12,23 @@ hadoop fs -rm -r /input
 hadoop fs -mkdir /input
 
 #将url及其出链上传到HDFS
-if [[ ! -f ${dir}/OutLinks ]]
+if [[ ! -f ${inputFile} ]]
 then
-  echo "Not found the input ${dir}/OutLinks."
+  echo "Not found the input ${inputFile}."
   exit 1
 else
-  hadoop fs -put ${dir}/OutLinks /input
+  hadoop fs -put ${inputFile} /input
 fi
 
 #if [[ -d ${dir}/PageRankMap ]]
 #then
-  rm -ri ${dir}/PageRank*
-  cp -a ${dir}/initPageRankMap ${dir}/PageRankMap
+#  rm -ri ${dir}/PageRank*
+#  cp -a ${dir}/initPageRankMap ${dir}/PageRankMap
 #fi
 
 iterTime=0
 
-while (($iterTime < 2))
+while (($iterTime < 15))
 do
 
 ((iterTime++))
@@ -35,7 +37,7 @@ do
 hadoop fs -rm -r /input/PageRankMap
 hadoop fs -put ${dir}/PageRankMap /input
 hadoop fs -rm -r /output
-hadoop jar "../lib/${classname}.jar"  "${classname}Package.PageRank" /input/OutLinks /output
+hadoop jar "../lib/${classname}.jar"  "${classname}Package.PageRank" /input/${inputFileName} /output
 
 if [[ -d ${PageRankOut} ]]
 then
