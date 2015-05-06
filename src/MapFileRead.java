@@ -16,11 +16,10 @@ import org.apache.hadoop.io.IOUtils;
 
 public class MapFileRead {
   
-  private MapFile.Reader reader = null;
-  private DoubleWritable value = null;
-  private Configuration conf = null;
-  private FileSystem fs = null;
-  private Path path = null;
+  private static MapFile.Reader reader = null;
+  private static Configuration conf = null;
+  private static FileSystem fs = null;
+  private static Path path = null;
     
   public MapFileRead(String uri) throws IOException{
     this.conf = new Configuration();
@@ -29,7 +28,10 @@ public class MapFileRead {
     this.reader = new MapFile.Reader(fs, uri, conf);
   }
      
-  public double getValue(String url) throws IOException{
+  public static double getValue(String url) throws IOException{
+    
+    DoubleWritable value = new DoubleWritable(0);
+
     try {
       reader.get(new Text(url), value);
     }   
@@ -44,10 +46,9 @@ public class MapFileRead {
   public static void main(String[] args) throws IOException {
     
     String uri = args[0];
-    Configuration conf = new Configuration();
-    FileSystem fs = FileSystem.get(URI.create(uri),conf);
-    Path path = new Path(uri); 
-    MapFile.Reader reader = null;
+    conf = new Configuration();
+    fs = FileSystem.get(URI.create(uri),conf);
+    path = new Path(uri); 
     try {
       reader = new MapFile.Reader(fs, uri, conf);
       WritableComparable key = (WritableComparable) ReflectionUtils.newInstance(reader.getKeyClass(),conf);
