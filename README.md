@@ -1,6 +1,6 @@
 search-1047
 ================================
-基于Nutch和Hadoop的简易搜索引擎，排序的依据主要是PageRank以及文本匹配值。
+基于Nutch和Hadoop的简易搜索引擎，排序的依据主要是PageRank以及由倒排索引文件计算的url page与输入模式的余弦距离值。
 
 Nutch & Hadoop
 ----------------------------------
@@ -24,6 +24,11 @@ Reduccer：将\<url, Iterable\<pageRank_part\>\>转换成\<url, 1-dampFactor+dam
 (1) mapreduce is slow for reading the MapFile.<br />    
 (2) programming to settle the number of iterations of the PageRank.<br />   
 
+TF-IDF
+----------------------------------
+1. 选出词条，同时生成倒排索引文件。<br /> 
+2. 计算出每个url page投影到词条的TF-IDF加权向量的模值，保存为MapFile格式。<br /> 
+
 Search
 ----------------------------------
-读取PageRank，同时计算网页的文本匹配值，将两个值进行加权由hadoop排序。<br />  
+读取PageRank，同时计算url Page与输入模式的余弦距离值，将两个值进行加权由hadoop排序。<br />  
