@@ -2,7 +2,7 @@
 description: The linkdb output by nutch contain the url and the urls \ 
              that direct to the first url in every single line.Then we \
              need to convert it to the url and the urls that the url direct \
-             to in ervery single line.
+             to in every single line.
 input: linkdb_data Text.
 output: linkdb_data2 Text.
 Mapper: <null, urls> --> <srcUrl, targetUrl>
