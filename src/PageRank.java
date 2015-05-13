@@ -49,7 +49,7 @@ public class PageRank {
       String urls[] = line.split(" ");
       int urlSize = urls.length;
       double srcPageRank = PageRankRead.getValue(urls[0]);
-      //urls[0] is the targetUrl.
+      //urls[0] is the srcUrl.
       double outLinkNum = urlSize-1;
       double pageRank_part = srcPageRank/outLinkNum;
       for(int i = 1; i < urlSize; i++) {
